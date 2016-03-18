@@ -12,17 +12,22 @@ public class MainActivity extends AppCompatActivity {
 
     private Button scannerButton;
     private TextView textBarcode;
+    private TextView textDetailProduct;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textBarcode = (EditText) findViewById(R.id.edit_barcode);
+        textDetailProduct = (TextView) findViewById(R.id.detail_product);
 
         //menerima parsing Intent dari BarcodeScanner.java
         Intent intent = getIntent();
 
         String barcodeString = intent.getStringExtra("value");
+        String produkString = intent.getStringExtra("produk");
         textBarcode.setText(barcodeString);
+        textDetailProduct.setText(produkString);
+
 
 
 

@@ -19,6 +19,8 @@ import net.sourceforge.zbar.ImageScanner;
 import net.sourceforge.zbar.Symbol;
 import net.sourceforge.zbar.SymbolSet;
 
+import geek.nekad.barcodescanner.helper.SQLiteHandler;
+import geek.nekad.barcodescanner.helper.SessionManager;
 
 
 public class BarcodeScanner extends AppCompatActivity {
@@ -30,6 +32,10 @@ public class BarcodeScanner extends AppCompatActivity {
     private Button scanButton;
     private ImageScanner scanner;
 
+    //database
+    private SessionManager session;
+    private SQLiteHandler db;
+
     private boolean barcodeScanned = false;
     private boolean previewing = true;
 
@@ -37,6 +43,12 @@ public class BarcodeScanner extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.barcode_scanner);
+
+        //SQlite database handler
+        db = new SQLiteHandler(getApplicationContext());
+
+        // Session manager
+        session = new SessionManager(getApplicationContext());
 
         initControls();
     }
@@ -161,6 +173,13 @@ public class BarcodeScanner extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.putExtra("value", message);
+                        if (message.equals("0749921006110")){
+                            intent.putExtra("produk", "Nutrisari Rasa Jeruk \n Harga Rp1000");
+                        } else if(message.equals("9311931024036")){
+                            intent.putExtra("produk", "Indocafe CoffeeMix \n Harga Rp2000");
+                        } else {
+                            intent.putExtra("produk", "Produk Belum Terdaftar");
+                        }
                         startActivity(intent);
                     }
                 })
